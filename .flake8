@@ -1,0 +1,14 @@
+[flake8]
+
+exclue = 
+    .gitignore
+    
+format = pylint
+
+max-line-length = 150
+max-doc-length = 150
+
+indent-size = 4
+
+# Full list of error codes available here: https://flake8.pycqa.org/en/2.5.5/warnings.html
+ignore = E265, F403, F405, E266, W503, E203  
