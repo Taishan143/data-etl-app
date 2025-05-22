@@ -1,0 +1,12 @@
+# Base Config Variables
+base:
+  api: "kaggle"
+  base_url: "https://www.kaggle.com/api/v1"
+  endpoint: "datasets/download"
+
+# API Specific Variables
+api:
+  owner: "shivamb"
+  dataset: "netflix-shows"
+  version: "5"
+   

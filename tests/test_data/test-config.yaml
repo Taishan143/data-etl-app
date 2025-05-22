@@ -1,0 +1,12 @@
+# Base Config Variables
+base:
+  api: "test"
+  base_url: "https://test-url/api/v1"
+  endpoint: "test/endpoint"
+
+# API Specific Variables
+api:
+  owner: "some-owner"
+  dataset: "some-dataset"
+  version: "1"
+   
