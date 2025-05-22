@@ -7,7 +7,7 @@ import zipfile
 import io
 import pandas as pd
 
-from spotify_data_etl.extract.extract_data import BaseAPIExtract
+from spotify_data_etl.extract.base_api import BaseAPIExtract
 from spotify_data_etl.config.base_config import Config
 
 from kaggle.api.kaggle_api_extended import KaggleApi
@@ -19,9 +19,9 @@ class KaggleAPI(BaseAPIExtract):
         super().__init__(config=config)
         self.api = KaggleApi()
 
-    load_dotenv()
-    USERNAME = os.getenv("BASIC_KAGGLE_USERNAME")
-    KEY = os.getenv("BASIC_KAGGLE_KEY")
+        load_dotenv()
+        self.USERNAME = os.getenv("BASIC_KAGGLE_USERNAME")
+        self.KEY = os.getenv("BASIC_KAGGLE_KEY")
 
     def authenticate(self):
         """Authenticates to the Kaggle API."""

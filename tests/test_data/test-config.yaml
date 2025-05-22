@@ -1,6 +1,6 @@
 # Base Config Variables
 base:
-  api: "test"
+  api: "kaggle"
   base_url: "https://test-url/api/v1"
   endpoint: "test/endpoint"
 

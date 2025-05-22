@@ -60,6 +60,7 @@ def parse_yaml_config(config_data: Any):
     match api:
         case "kaggle":
             api_config = parse_kaggle_config(config_data=config_data)
-
         case _:
-            logging.error(f"Unsupported API type: {api}")
+            raise ValueError(f"Unsupported API type: {api}")
+
+    return Config(base=base_config, api=api_config)

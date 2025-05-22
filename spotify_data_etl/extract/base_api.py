@@ -17,13 +17,13 @@ class BaseAPIExtract(ABC):
     def extract_data(self):
         """Overwritten in child classes."""
 
-    def validate_data_size(dataframe: DataFrame):
+    def validate_data_size(self, dataframe: DataFrame):
         """Checks to see if any data has been returned.
 
         :param dataframe: The data extracted from the API.
         :type dataframe: DataFrame
         :raises Exception: Raised if no data is present in the dataframe.
         """
-        if dataframe.size < 1:
+        if dataframe.empty:
             logging.warning("The dataframe contains no data points.")
             raise Exception("No data to process.")

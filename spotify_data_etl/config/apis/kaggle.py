@@ -25,12 +25,14 @@ class KaggleConfig:
                     f"Expected {field}, with current value of {field_value}, to be {data_type.__name__}, got {type(field_value).__name__}."
                 )
 
-    def parse_kaggle_config(config_data: Any):
-        try:
-            return KaggleConfig(
-                owner=config_data["owner"],
-                dataset=config_data["dataset"],
-                version=config_data["version"],
-            )
-        except KeyError as kerr:
-            raise KeyError(f"Missing required config key: {kerr}")
+
+def parse_kaggle_config(config_data: Any):
+    try:
+        api = config_data["api"]
+        return KaggleConfig(
+            owner=api["owner"],
+            dataset=api["dataset"],
+            version=api["version"],
+        )
+    except KeyError as kerr:
+        raise KeyError(f"Missing required config key: {kerr}")
