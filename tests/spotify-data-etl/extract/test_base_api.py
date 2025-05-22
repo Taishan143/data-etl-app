@@ -6,7 +6,7 @@ import pandas as pd
 
 
 class MockBaseAPIExtract(BaseAPIExtract):
-    """The CSVDataCleanser is an abstract class and cannot be instantiated.
+    """The BaseAPIExtract is an abstract class and cannot be instantiated.
     This is a test sub class used for testing the DataCleanser methods which are not abstract.
     """
 
