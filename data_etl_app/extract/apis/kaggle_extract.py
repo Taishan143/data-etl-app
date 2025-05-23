@@ -7,7 +7,7 @@ import zipfile
 import io
 import pandas as pd
 
-from data_etl_app.extract.base_api import BaseAPIExtract
+from data_etl_app.extract.base_extractor import BaseAPIExtract
 from data_etl_app.config.base_config import Config
 
 from kaggle.api.kaggle_api_extended import KaggleApi
