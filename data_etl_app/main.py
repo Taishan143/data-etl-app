@@ -5,6 +5,10 @@ from data_etl_app.transform.transform_factory import (
     Transformer,
 )
 from data_etl_app.load.load_factory import get_loader_instance, Loader
+from data_etl_app.visualisations.visualisation_factory import (
+    get_visualisation_instance,
+    Visualiser,
+)
 from data_etl_app.config.base_config import Config, parse_yaml_config
 import yaml
 import logging
@@ -56,6 +60,15 @@ def main(config_file: str):
 
     loader_instance.load_data(dataframe=transformed_data)
     # Visualise data
+
+    connection = loader_instance.create_connection()
+    vis_client = get_visualisation_instance(api_name=api_name)
+    vis_instance: Visualiser = vis_client(config=config)
+
+    query = f"SELECT * FROM {config.database.table}"
+    dataframe = vis_instance.get_data(query=query, connection=connection)
+    plot_columns = ("release_year", "diversity_score")
+    vis_instance.plot_data(dataframe=dataframe, columns=plot_columns)
 
 
 def load_yaml_config(config_filepath: str):

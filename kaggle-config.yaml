@@ -37,3 +37,9 @@ database:
       )
     "
   }
+  visualisation: {
+    "columns": ["release_year", "diversity_score"],
+    "title": "Average Media Genre Diversity Over Time",
+    "xlabel": "Year",
+    "ylabel": "Average Score"
+  }

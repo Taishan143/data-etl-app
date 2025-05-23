@@ -41,6 +41,7 @@ class DatabaseConfig:
     name: str
     table: str
     queries: Dict[str, str]
+    visualisations: Dict[str, Union[str, list]]
 
     def __post_init__(self):
         """Used for forcing types for each variable to ensure the correct data is parsed.
@@ -51,6 +52,7 @@ class DatabaseConfig:
             (self.name, "name", str),
             (self.table, "table", str),
             (self.queries, "queries", Dict[str, str]),
+            (self.visualisations, "visualisations", Dict[str, Union[str, list]]),
         ]
 
         validate_config_fields(variables_and_types=fields_values_and_types)
@@ -83,6 +85,7 @@ def parse_database_config(config_data: Any):
             name=database["name"],
             table=database["table"],
             queries=database["queries"],
+            visualisations=database["visualisations"],
         )
     except KeyError as kerr:
         raise KeyError(f"Missing required database config key: {kerr}")
@@ -115,6 +118,17 @@ def check_data_type(value, expected_type, field_name="unknown", errors=None):
         return
 
     try:
+        # Handle Union (including Optional)
+        if origin is Union:
+            for typ in args:
+                sub_errors = []
+                check_data_type(value, typ, field_name, sub_errors)
+                if not sub_errors:
+                    return  # success
+            expected_types = ", ".join(str(typ) for typ in args)
+            raise TypeError(
+                f"{field_name}: Value '{value}' does not match any type in Union[{expected_types}]"
+            )
         # Handle Dict[K, V]
         if origin is dict:
             if not isinstance(value, dict):

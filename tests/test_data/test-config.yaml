@@ -18,3 +18,9 @@ database:
   queries: {
     "create": ""
   }
+  visualisations: {
+    "columns": ["col-1", "col-2"],
+    "title": "Some Title",
+    "xlabel": "Some X Label",
+    "ylabel": "Some Y Label"
+  }
