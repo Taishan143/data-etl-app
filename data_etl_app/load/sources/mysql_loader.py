@@ -82,16 +82,20 @@ class MySQLLoader(BaseLoader):
         cursor.execute(f"SELECT * FROM {self.config.database.table}")
 
     def load_data(self, dataframe: pd.DataFrame):
-        connection = self.create_connection()
-        cursor = connection.cursor()
 
-        logging.info(
-            f"Creating table {self.config.database.table} if it doesn't exist."
-        )
-        self.create_table(cursor=cursor)
-        logging.info("Inserting data...")
-        self.insert_data(cursor=cursor, dataframe=dataframe)
-        logging.info(
-            f"Data successfully inserted into the {self.config.database.table} table."
-        )
-        self.show_data(cursor=cursor)
+        if self.config.database.name == "":
+            logging.info("No table name declared. Skipping upload.")
+        else:
+            connection = self.create_connection()
+            cursor = connection.cursor()
+
+            logging.info(
+                f"Creating table {self.config.database.table} if it doesn't exist."
+            )
+            self.create_table(cursor=cursor)
+            logging.info("Inserting data...")
+            self.insert_data(cursor=cursor, dataframe=dataframe)
+            logging.info(
+                f"Data successfully inserted into the {self.config.database.table} table."
+            )
+            self.show_data(cursor=cursor)

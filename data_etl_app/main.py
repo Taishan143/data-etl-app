@@ -66,7 +66,12 @@ def main(config_file: str):
     vis_instance: Visualiser = vis_client(config=config)
 
     query = f"SELECT * FROM {config.database.table}"
-    dataframe = vis_instance.get_data(query=query, connection=connection)
+
+    if config.database.table == "":
+        dataframe = transformed_data
+    else:
+        dataframe = vis_instance.get_data(query=query, connection=connection)
+
     plot_columns = ("release_year", "diversity_score")
     vis_instance.plot_data(dataframe=dataframe, columns=plot_columns)
 
