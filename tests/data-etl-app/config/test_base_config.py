@@ -1,6 +1,6 @@
 import unittest
 import yaml
-from spotify_data_etl.config.base_config import parse_yaml_config, parse_base_config
+from data_etl_app.config.base_config import parse_yaml_config, parse_base_config
 
 
 class TestBaseConfig(unittest.TestCase):
@@ -42,4 +42,4 @@ class TestBaseConfig(unittest.TestCase):
         with self.assertRaises(KeyError) as context:
             parse_base_config(config_data=self.config_data)
         # Assert
-        self.assertIn("Missing required config key: 'api'", str(context.exception))
+        self.assertIn("Missing required base config key: 'api'", str(context.exception))

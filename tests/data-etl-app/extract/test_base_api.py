@@ -1,6 +1,6 @@
 import unittest
-from spotify_data_etl.extract.base_api import BaseAPIExtract
-from spotify_data_etl.config.base_config import parse_yaml_config
+from data_etl_app.extract.base_api import BaseAPIExtract
+from data_etl_app.config.base_config import parse_yaml_config
 import yaml
 import pandas as pd
 

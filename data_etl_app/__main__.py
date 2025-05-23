@@ -1,5 +1,5 @@
 import argparse
-from spotify_data_etl import __version__
+from data_etl_app import __version__
 
 
 def main():

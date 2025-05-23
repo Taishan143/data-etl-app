@@ -7,13 +7,13 @@ import zipfile
 import io
 import pandas as pd
 
-from spotify_data_etl.extract.base_api import BaseAPIExtract
-from spotify_data_etl.config.base_config import Config
+from data_etl_app.extract.base_api import BaseAPIExtract
+from data_etl_app.config.base_config import Config
 
 from kaggle.api.kaggle_api_extended import KaggleApi
 
 
-class KaggleAPI(BaseAPIExtract):
+class KaggleExtract(BaseAPIExtract):
 
     def __init__(self, config: Config):
         super().__init__(config=config)
@@ -30,7 +30,7 @@ class KaggleAPI(BaseAPIExtract):
         os.environ["KAGGLE_KEY"] = self.KEY
         self.api.authenticate()
 
-    def extract_data(self):
+    def extract_data(self) -> pd.DataFrame:
 
         params = (
             f"?datasetVersionNumber={self.config.api.version}"
@@ -59,6 +59,6 @@ class KaggleAPI(BaseAPIExtract):
         zf = zipfile.ZipFile(io.BytesIO(response.content))
 
         filename = "netflix_titles.csv"
-        dataframe = pd.read_csv(zf.open(filename))
+        dataframe = pd.read_csv(zf.open(filename), engine="python")
 
         return dataframe

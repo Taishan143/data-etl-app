@@ -3,6 +3,7 @@ base:
   api: "kaggle"
   base_url: "https://test-url/api/v1"
   endpoint: "test/endpoint"
+  database_source: "test-db-source"
 
 # API Specific Variables
 api:
@@ -10,3 +11,10 @@ api:
   dataset: "some-dataset"
   version: "1"
    
+# Database Specific Variables
+database:
+  name: "some_db"
+  table: "initial_table"
+  queries: {
+    "create": ""
+  }

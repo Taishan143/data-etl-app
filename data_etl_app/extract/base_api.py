@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from spotify_data_etl.config.base_config import Config
+from data_etl_app.config.base_config import Config
 from pandas import DataFrame
 import logging
 
@@ -8,6 +8,9 @@ class BaseAPIExtract(ABC):
 
     def __init__(self, config: Config):
         self.config = config
+
+    def get_extract_instance(self):
+        pass
 
     @abstractmethod
     def authenticate(self):

@@ -1,6 +1,6 @@
 import unittest
 import yaml
-from spotify_data_etl.config.apis.kaggle import parse_kaggle_config
+from data_etl_app.config.apis.kaggle import parse_kaggle_config
 
 
 class TestKaggleConfig(unittest.TestCase):

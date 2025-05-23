@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from spotify_data_etl.extract.apis.kaggle_api import KaggleAPI
-from spotify_data_etl.config.base_config import parse_yaml_config
+from data_etl_app.extract.apis.kaggle_extract import KaggleExtract
+from data_etl_app.config.base_config import parse_yaml_config
 import yaml
 import pandas as pd
 import io
@@ -10,7 +10,7 @@ import base64
 import os
 
 
-class TestKaggleAPI(unittest.TestCase):
+class TestKaggleExtract(unittest.TestCase):
 
     def setUp(self):
         test_config_path = "tests/test_data/test-config.yaml"
@@ -20,7 +20,7 @@ class TestKaggleAPI(unittest.TestCase):
         self.config = parse_yaml_config(config_data=self.config_data)
 
     @patch("os.environ", {})
-    @patch("spotify_data_etl.extract.apis.kaggle_api.KaggleApi")
+    @patch("data_etl_app.extract.apis.kaggle_extract.KaggleApi")
     def test_authenticate(self, mock_kaggle_api):
         # Arrange
         mock_api_instance = MagicMock()
@@ -33,7 +33,7 @@ class TestKaggleAPI(unittest.TestCase):
         ):
             # Instantiate KaggleAPI with a dummy config object
             dummy_config = MagicMock()
-            kaggle_api = KaggleAPI(config=dummy_config)
+            kaggle_api = KaggleExtract(config=dummy_config)
 
             # Act
             kaggle_api.authenticate()
@@ -45,8 +45,8 @@ class TestKaggleAPI(unittest.TestCase):
             # Assert the authenticate method on the KaggleApi instance was called once
             mock_api_instance.authenticate.assert_called_once()
 
-    @patch("spotify_data_etl.extract.apis.kaggle_api.requests.get")
-    @patch("spotify_data_etl.extract.apis.kaggle_api.zipfile.ZipFile")
+    @patch("data_etl_app.extract.apis.kaggle_extract.requests.get")
+    @patch("data_etl_app.extract.apis.kaggle_extract.zipfile.ZipFile")
     def test_extract_data(self, mock_zipfile_class, mock_requests_get):
         # Arrange
         config_mock = MagicMock()
@@ -56,7 +56,7 @@ class TestKaggleAPI(unittest.TestCase):
         config_mock.api.owner = "ownername"
         config_mock.api.dataset = "datasetname"
 
-        kaggle_api_instance = KaggleAPI(config=config_mock)
+        kaggle_api_instance = KaggleExtract(config=config_mock)
         kaggle_api_instance.USERNAME = "user"
         kaggle_api_instance.KEY = "key"
 
@@ -83,7 +83,7 @@ class TestKaggleAPI(unittest.TestCase):
         result_df = kaggle_api_instance.extract_data()
 
         # Assert
-        expected_df = pd.read_csv(io.StringIO(fake_csv_content))
+        expected_df = pd.read_csv(io.StringIO(fake_csv_content), engine="python")
         pd.testing.assert_frame_equal(result_df, expected_df)
 
         # Verify URL and headers
