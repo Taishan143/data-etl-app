@@ -12,7 +12,7 @@ import logging
 class MySQLLoader(BaseLoader):
 
     def __init__(self, config: Config):
-        super().__init__()
+        super().__init__(config=config)
         self.config = config
 
         load_dotenv()
