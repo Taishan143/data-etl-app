@@ -1,4 +1,4 @@
-# Spotify Data ETL
+# Data ETL App
 
 This project will conduct the full ETL process to extract data from the Kaggle API, perform necessary cleansing and transformation operations, and load the data into a MySQL database.
 
