@@ -59,7 +59,6 @@ class MySQLLoader(BaseLoader):
         :type dataframe: pd.DataFrame
         """
         columns = list(dataframe.columns)
-        logging.info(f"Columns: {columns}")
         placeholders = ", ".join(["%s"] * len(columns))
 
         update_cols = [col for col in columns if col != "show_id"]
@@ -74,10 +73,6 @@ class MySQLLoader(BaseLoader):
             tuple(None if pd.isna(value) else value for value in row)
             for row in dataframe.to_numpy()
         ]
-        logging.info(f"Columns: {columns}")
-        logging.info(f"First data tuple: {data_tuples[0]}")
-        for col, val in zip(columns, data_tuples[0]):
-            logging.info(f"{col}: {val}")
 
         cursor.executemany(query, data_tuples)
 
