@@ -10,7 +10,7 @@ It relies on a config file being parsed into the main function in the main.py fi
 ## Process
 
 Follow these steps for running this app:
-1. Edit the kaggle-config.yaml file to extract the data you want. Details on how to do this are below in the *Configuration File Set Up* section.
+1. Edit the kaggle-config.yaml file to extract the data you want. Details on how to do this are below in the *Configuration File Set Up* section. *You can run it as it currently stands as this has been preconfigured.*
 2. Run the following commands:
 ```bash
 chmod +x ./run_app.sh
