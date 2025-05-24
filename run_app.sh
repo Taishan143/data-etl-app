@@ -11,4 +11,7 @@ python3 -m pip install -r requirements.txt
 
 # Run the app
 
-python3 -m data_etl_app/main.py kaggle-config.yaml
+python3 -m data_etl_app.main kaggle-config.yaml
+
+# deactivate the virtual environment
+deactivate
