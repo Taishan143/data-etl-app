@@ -29,7 +29,7 @@ class TestKaggleCleanser(unittest.TestCase):
 
     def test_reformat_date(self):
         # Arrange
-        test_date = "September 12, 2024"
+        test_date = " September 12, 2024 "
         # Act
         kaggle_cleanser = KaggleDataCleanser()
         result = kaggle_cleanser.reformat_date(date_str=test_date)
@@ -112,6 +112,7 @@ class TestKaggleCleanser(unittest.TestCase):
         )
         # Act
         kaggle_cleaanser = KaggleDataCleanser()
+
         result = kaggle_cleaanser.cleanse_data(dataframe=test_dataframe)
         # Assert
         pd.testing.assert_frame_equal(result, expected)

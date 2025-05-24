@@ -7,6 +7,7 @@ import os
 from mysql.connector.pooling import PooledMySQLConnection
 from mysql.connector.abstracts import MySQLConnectionAbstract
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 class KaggleVisualisations(BaseVisualiser):
@@ -49,14 +50,18 @@ class KaggleVisualisations(BaseVisualiser):
         :param ylabel: The label for the y axis.
         :type ylabel: str
         """
-        if len(columns) != 2:
-            raise ValueError("Exactly two column names must be provided.")
-
         column1, column2 = columns
-        plt.scatter(dataframe[column1], dataframe[column2])
+        x = dataframe[column1]
+        y = dataframe[column2]
+
+        plt.figure(figsize=(12, 6))
+        plt.bar(x, y, color="skyblue")
         plt.title(title)
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
-        plt.grid(True)
+
+        unique_x_labels = sorted(set(x))
+        plt.xticks(unique_x_labels, rotation=45, ha="right")
+
         plt.tight_layout()
         plt.show()

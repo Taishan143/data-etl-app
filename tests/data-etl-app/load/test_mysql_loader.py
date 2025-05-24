@@ -69,7 +69,7 @@ class TestMySQLLoader(unittest.TestCase):
         update_cols = [col for col in columns if col != "show_id"]
         update_expr = ", ".join([f"{col}=VALUES({col})" for col in update_cols])
         expected_query = (
-            f"INSERT INTO test_table ({', '.join(columns)}) VALUES ({placeholders})"
+            f"INSERT INTO test_db.test_table ({', '.join(columns)}) VALUES ({placeholders})"
             f"ON DUPLICATE KEY UPDATE {update_expr}"
         )
 

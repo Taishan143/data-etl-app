@@ -15,8 +15,7 @@ import logging
 import pandas as pd
 import sys
 
-
-# config_file = "kaggle-config.yaml"
+logging.basicConfig(level=logging.INFO)
 
 
 def main(config_file: str):
@@ -47,6 +46,7 @@ def main(config_file: str):
     cleansed_data = cleansing_instance.cleanse_data(dataframe=extraceted_data)
 
     # Transform the data
+    logging.info("Transforming data...")
     transformer_client = get_transformer_instance(api_name=api_name)
     transformer_instance: Transformer = transformer_client()
 
@@ -59,21 +59,32 @@ def main(config_file: str):
     loader_instance: Loader = loader_client(config=config)
 
     loader_instance.load_data(dataframe=transformed_data)
-    # Visualise data
 
-    connection = loader_instance.create_connection()
+    # Visualise data
     vis_client = get_visualisation_instance(api_name=api_name)
     vis_instance: Visualiser = vis_client(config=config)
 
-    query = f"SELECT * FROM {config.database.table}"
+    query = f"SELECT * FROM {config.database.name}.{config.database.table}"
 
     if config.database.table == "":
         dataframe = transformed_data
     else:
+        connection = loader_instance.create_connection()
         dataframe = vis_instance.get_data(query=query, connection=connection)
 
     plot_columns = ("release_year", "diversity_score")
-    vis_instance.plot_data(dataframe=dataframe, columns=plot_columns)
+    title = config.database.visualisations["title"]
+    xlabel = config.database.visualisations["xlabel"]
+    ylabel = config.database.visualisations["ylabel"]
+    vis_instance.plot_data(
+        dataframe=dataframe,
+        columns=plot_columns,
+        title=title,
+        xlabel=xlabel,
+        ylabel=ylabel,
+    )
+
+    logging.info("ETL Process Successful!")
 
 
 def load_yaml_config(config_filepath: str):
@@ -81,5 +92,5 @@ def load_yaml_config(config_filepath: str):
         return yaml.safe_load(file)
 
 
-if __name__ == "__main__"():
+if __name__ == "__main__":
     main(sys.argv[1])

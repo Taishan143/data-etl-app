@@ -23,7 +23,8 @@ class KaggleDataCleanser(BaseCleanser):
             return None
         else:
             try:
-                return datetime.strptime(date_str, "%B %d, %Y").strftime("%Y-%m-%d")
+                cleaned_date = date_str.lstrip().rstrip()
+                return datetime.strptime(cleaned_date, "%B %d, %Y").strftime("%Y-%m-%d")
             except Exception as e:
                 logging.warning(f"Failed to parse date: {date_str}. Error: {e}")
                 return None
@@ -40,7 +41,8 @@ class KaggleDataCleanser(BaseCleanser):
         :param value: The value being inserted into the null fields.
         :type value: Union[str, int]
         """
-        dataframe[column].fillna(value, inplace=True)
+        dataframe[column] = dataframe[column].fillna(value=value)
+        return dataframe
 
     def cleanse_data(self, dataframe: pd.DataFrame):
         """Main cleansing operation for the Kaggle API. Method override from the parent class.
@@ -57,6 +59,7 @@ class KaggleDataCleanser(BaseCleanser):
             ("country", "Unknown"),
         ]
         for column, value in columns_and_values:
-            self.populate_null_values(dataframe=dataframe, column=column, value=value)
-
+            dataframe = self.populate_null_values(
+                dataframe=dataframe, column=column, value=value
+            )
         return dataframe

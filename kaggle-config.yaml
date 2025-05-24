@@ -15,8 +15,8 @@ api:
 
 # Database Specific Variables
 database:
-  name: ""
-  table: ""
+  name: "etl_app_data"
+  table: "netflix_shows_data"
   queries: {
     "create": "
       CREATE TABLE IF NOT EXISTS {table} (
@@ -25,19 +25,19 @@ database:
         title VARCHAR(255),
         director VARCHAR(255),
         cast TEXT,
-        country VARCHAR(100),
+        country VARCHAR(225),
         date_added DATE,
         release_year VARCHAR(10),
         rating VARCHAR(10),
         duration VARCHAR(50),
         listed_in TEXT,
         description TEXT,
-        adults_only BOOLEAN,
-        diversity_score INT
+        diversity_score INT,
+        adults_only VARCHAR(50)
       )
     "
   }
-  visualisation: {
+  visualisations: {
     "columns": ["release_year", "diversity_score"],
     "title": "Average Media Genre Diversity Over Time",
     "xlabel": "Year",

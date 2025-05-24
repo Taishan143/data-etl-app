@@ -59,17 +59,25 @@ class MySQLLoader(BaseLoader):
         :type dataframe: pd.DataFrame
         """
         columns = list(dataframe.columns)
+        logging.info(f"Columns: {columns}")
         placeholders = ", ".join(["%s"] * len(columns))
 
         update_cols = [col for col in columns if col != "show_id"]
         update_expr = ", ".join([f"{col}=VALUES({col})" for col in update_cols])
 
         query = (
-            f"INSERT INTO {self.config.database.table} ({', '.join(columns)}) VALUES ({placeholders})"
+            f"INSERT INTO {self.config.database.name}.{self.config.database.table} ({', '.join(columns)}) VALUES ({placeholders})"
             f"ON DUPLICATE KEY UPDATE {update_expr}"
         )
 
-        data_tuples = [tuple(nparray) for nparray in dataframe.to_numpy()]
+        data_tuples = [
+            tuple(None if pd.isna(value) else value for value in row)
+            for row in dataframe.to_numpy()
+        ]
+        logging.info(f"Columns: {columns}")
+        logging.info(f"First data tuple: {data_tuples[0]}")
+        for col, val in zip(columns, data_tuples[0]):
+            logging.info(f"{col}: {val}")
 
         cursor.executemany(query, data_tuples)
 
@@ -80,11 +88,12 @@ class MySQLLoader(BaseLoader):
         :type cursor: MySQLCursorAbstract
         """
         cursor.execute(f"SELECT * FROM {self.config.database.table}")
+        cursor.fetchall()
 
     def load_data(self, dataframe: pd.DataFrame):
 
         if self.config.database.name == "":
-            logging.info("No table name declared. Skipping upload.")
+            logging.info("No database declared. Skipping upload.")
         else:
             connection = self.create_connection()
             cursor = connection.cursor()
@@ -95,7 +104,11 @@ class MySQLLoader(BaseLoader):
             self.create_table(cursor=cursor)
             logging.info("Inserting data...")
             self.insert_data(cursor=cursor, dataframe=dataframe)
+            connection.commit()
             logging.info(
                 f"Data successfully inserted into the {self.config.database.table} table."
             )
             self.show_data(cursor=cursor)
+
+            cursor.close()
+            connection.close()

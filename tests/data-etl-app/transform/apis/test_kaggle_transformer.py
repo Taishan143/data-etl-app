@@ -30,6 +30,18 @@ class TestKaggleTransformer(unittest.TestCase):
         # Assert
         self.assertEqual(result, expected)
 
+    def test_convert_movie_times_to_hours_and_minutes__None(self):
+        # Arrange
+        test_time = pd.NA
+        expected = "Unknown"
+        # Act
+        kaggle_transformer = KaggleTransformer()
+        result = kaggle_transformer.convert_movie_times_to_hours_and_minutes(
+            time_value=test_time
+        )
+        # Assert
+        self.assertEqual(result, expected)
+
     def test_create_diversity_column(self):
         # Arrange
         test_dataframe = self.dataframe.copy()
@@ -66,7 +78,7 @@ class TestKaggleTransformer(unittest.TestCase):
                     "Documentaries",
                     "Sci-fi,Thriller,Fantasy",
                 ],
-                "adults_only": [True, True, False],
+                "adults_only": ["Yes", "Yes", "No"],
             }
         )
         # Act
@@ -89,7 +101,7 @@ class TestKaggleTransformer(unittest.TestCase):
                     "Sci-fi,Thriller,Fantasy",
                 ],
                 "diversity_score": [2, 1, 3],
-                "adults_only": [True, True, False],
+                "adults_only": ["Yes", "Yes", "No"],
             }
         )
         # Act
