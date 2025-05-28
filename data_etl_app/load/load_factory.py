@@ -2,7 +2,7 @@ from typing import Union, TypeAlias
 from data_etl_app.load.sources.mysql_loader import MySQLLoader
 from data_etl_app.load.sources.sqlite_loader import SQLliteLoader
 
-Loader: TypeAlias = Union[MySQLLoader]
+Loader: TypeAlias = Union[MySQLLoader, SQLliteLoader]
 
 
 def get_loader_instance(database_name: str) -> Loader:
