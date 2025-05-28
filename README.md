@@ -25,3 +25,4 @@ This section will detail how to fill out the config file used by this app.
 ## To Do:
 
 - [ ] Extend the config to parse visualisation properties properly.
+- [ ] Add GitHub Actions workflow for running automated tests and app deployment.
