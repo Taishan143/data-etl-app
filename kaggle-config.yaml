@@ -3,7 +3,7 @@ base:
   api: "kaggle"
   base_url: "https://www.kaggle.com/api/v1"
   endpoint: "datasets/download"
-  database_source: "mysql"
+  database_source: "sqlite"
   
 
 # API Specific Variables

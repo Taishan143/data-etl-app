@@ -64,7 +64,7 @@ def main(config_file: str):
     vis_client = get_visualisation_instance(api_name=api_name)
     vis_instance: Visualiser = vis_client(config=config)
 
-    query = f"SELECT * FROM {config.database.name}.{config.database.table}"
+    query = f"SELECT * FROM {config.database.table}"
 
     if config.database.table == "":
         dataframe = transformed_data

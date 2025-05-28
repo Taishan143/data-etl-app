@@ -7,7 +7,6 @@ import os
 from mysql.connector.pooling import PooledMySQLConnection
 from mysql.connector.abstracts import MySQLConnectionAbstract
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 
 class KaggleVisualisations(BaseVisualiser):
